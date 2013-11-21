@@ -26,7 +26,10 @@ int main()
 
 	cout << "Employee Number: ";
 	cin >> number;
-	worker1.setEmpNum(number);
+	try{ worker1.setEmpNum(number); }
+	catch(char *eString){
+		cout << eString;
+	}
 	cin.sync();
 
 	cout << "Hire Date: ";
@@ -47,7 +50,7 @@ int main()
 
 	cout << "Hourly pay rate: $";
 	cin >> pay;
-	try	worker1.setPayRate(pay);
+	try	{worker1.setPayRate(pay);}
 	catch(char *exceptionString){
 		cout << exceptionString;
 	}

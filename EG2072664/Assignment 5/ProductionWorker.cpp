@@ -8,7 +8,7 @@ void ProductionWorker::setShift(int s){
 }
 
 void ProductionWorker::setPayRate(double r){
-	if (s < 0)
+	if (r < 0)
 		throw "InvalidPayRate";
 	if(r < 7.50){
 		payRate = 7.50;

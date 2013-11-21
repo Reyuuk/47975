@@ -19,7 +19,7 @@ public:
 
 	//Mutators
 	void setName(string n) {name = n;}
-	void setEmpNum(int n)
+	void setEmpNum(int n);
 	void setHireDate(string n) {hireDate = n;}
 
 	//Accessors
