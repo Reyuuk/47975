@@ -28,7 +28,7 @@ int main()
 	cin >> number;
 	try{ worker1.setEmpNum(number); }
 	catch(char *eString){
-		cout << eString;
+		cout << eString << endl;
 	}
 	cin.sync();
 
@@ -36,23 +36,18 @@ int main()
 	getline(cin, input);
 	worker1.setHireDate(input);
 
-	cout << "Day shift or night shift?[D/N]: ";
-	getline(cin, input);
-	while(input[0] !='D' && input[0] !='N'){
-		cout << "Invalid input! Try again: ";
-		cin.clear();
-		cin.sync();
-		getline(cin, input);
+	cout << "First(Day) shift or Second(Night) shift?[1/2]: ";
+	cin >> number;
+	try	{worker1.setShift(number);}
+	catch (char *eString){
+		cout << eString << endl;
 	}
-	if(input[0]=='D')
-		worker1.setShift(1);
-	else worker1.setShift(2);
 
 	cout << "Hourly pay rate: $";
 	cin >> pay;
 	try	{worker1.setPayRate(pay);}
 	catch(char *exceptionString){
-		cout << exceptionString;
+		cout << exceptionString << endl;
 	}
 
 	cout << endl << endl;
