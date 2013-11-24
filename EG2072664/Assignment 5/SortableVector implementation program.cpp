@@ -12,15 +12,14 @@ using namespace std;
 
 int main(){
 
-	int size=5;
+	int size;
 
-	//cout << "Please enter an array size for your vector to be sorted" << endl;
-	//cin >> size;
+	cout << "Please enter an array size for your vector to be sorted." << endl;
+	cin >> size;
 
 	SortableVector<int> uservect(size);
-	//SortableVector<int> *uservect = new SortableVector<int>(size);
 
-	cout << "Fill the array with elements." << endl;
+	cout << "Fill the array with elements(integers)." << endl;
 	for(int i=0; i < size; i++){
 		int element;
 		cout << i << ": ";
@@ -36,7 +35,28 @@ int main(){
 		cout << uservect.getElementAt(i) << endl;
 	}
 
-	//delete[]uservect;
+	cout << "Please enter an array size for your vector to be sorted." << endl;
+	cin >> size;
+
+	SortableVector<float> uservectfl(size);
+
+	cout << "Fill the array with elements(floats)." << endl;
+	for(int i=0; i < size; i++){
+		float element;
+		cout << i << ": ";
+		cin >> element;
+		uservectfl[i] = element;
+	}
+
+	cout << "Now sorting elements." << endl;
+	uservectfl.sort();
+
+	cout << "Sorted elements..." << endl;
+	for(int i=0; i < size; i++){
+		cout << uservectfl.getElementAt(i) << endl;
+	}
+
+	cout << endl << "End of program. ";
 	system("PAUSE");
 	return 0;
 }

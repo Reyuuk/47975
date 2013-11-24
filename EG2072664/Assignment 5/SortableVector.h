@@ -15,8 +15,8 @@ private:
 	int arraySize;
 	void memError();
 	void subError();
-	void quickSort(T &, int, int);
-	int partition(T &, int, int);
+	void quickSort(T *, int, int);
+	int partition(T *, int, int);
 
 public:
 	//Constructors
@@ -119,12 +119,12 @@ T &SortableVector<T>::operator[](const int &sub){
 //sort function - user accessible sorting routine
 template <class T>
 void SortableVector<T>::sort(){
-	quickSort(aptr, aptr[0], aptr[arraySize]);
+	quickSort(aptr, 0, arraySize);
 }
 
 //quickSort function - uses quick sort to sort the vector in descending order
 template <class T>
-void SortableVector<T>::quickSort(T &aptr, int top, int bottom){
+void SortableVector<T>::quickSort(T *aptr, int top, int bottom){
 	int middle;
 	if(top < bottom){
 		middle = partition(aptr, top, bottom);
@@ -137,11 +137,11 @@ void SortableVector<T>::quickSort(T &aptr, int top, int bottom){
 
 //Partition function for quicksorting - returns the middle subscript
 template <class T>
-int SortableVector<T>::partition(T &aptr, int top, int bottom){
-	int x = aptr[top];
+int SortableVector<T>::partition(T *aptr, int top, int bottom){
+	T x = aptr[top];
 	int i = top - 1;
 	int j = bottom + 1;
-	int temp;
+	T temp;
 	do{
 		do{
 			j--;
