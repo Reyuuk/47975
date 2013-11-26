@@ -80,8 +80,10 @@ SortableVector<T>::SortableVector(const SortableVector &obj){
 //destructor for SortableVector Class
 template <class T>
 SortableVector<T>::~SortableVector(){
-	if(arraySize > 0)
+	if(arraySize > 1)
 		delete [] aptr;
+	else if(arraySize == 1)
+		delete aptr;
 }
 
 //memError function - displays an error and terminates the program when memory allocation fails
