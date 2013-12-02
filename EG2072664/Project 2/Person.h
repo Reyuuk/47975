@@ -6,15 +6,24 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <sstream>
 
 using namespace std;
+
+struct date
+{
+	int day;
+	int month;
+	int year;
+};
+
 
 class Person
 {
 private:
     string name;		//name
-    int relationship;	//relationship to applicant
-	int dob;			//date of birth
+    string relationship;	//relationship to applicant - int to calculate?
+	date dob;			//date of birth
 	string ssn;			//social security number
 	//char food;		//purchase and prepare food with the rest of the household
 	//char citizen;		//US citizenship
@@ -51,3 +60,5 @@ public:
 
 };
 #endif
+
+
