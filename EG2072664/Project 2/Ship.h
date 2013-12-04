@@ -41,8 +41,9 @@ public:
 
 template <class T>
 void Ship<T>::setLength(int len){
-	if(l < 0 || l > 5)
+	//prevent making of ships of size 0 or greater than the length/width of the board
+	if(l < 0 || (l > getBoardH() && l > getBoardW()))
 		throw "Invalid Length.";
-	else ShipSize = len;
+	ShipSize = len;
 }
 #endif
