@@ -8,7 +8,6 @@
 
 using namespace std;
 
-template <class T>
 class Ship
 {
 private:
@@ -28,21 +27,19 @@ public:
 	//Accessors
     string getName() const {return shipName;}
     int getLength() const {return shipSize;}
-    virtual int getHitpoints() = 0;
-    virtual T *getShipPos() = 0;
+    virtual int getHitpoints() const =0;
 	
 	//Mutators
     void setShipName(string n) {shipName = n;}
     void setLength(int l);
-    virtual void setHitpoints(int h) = 0;
-    virtual void setPosition(T *pos) = 0;
+    virtual void setHitpoints(int)=0;
 
 };
 
 template <class T>
 void Ship<T>::setLength(int len){
 	//prevent making of ships of size 0 or greater than the length/width of the board
-	if(l < 0 || (l > getBoardH() && l > getBoardW()))
+	if(l < 2 || (l > getBoardH() && l > getBoardW()))
 		throw "Invalid Length.";
 	ShipSize = len;
 }

@@ -1,19 +1,21 @@
 #include "Battleship.h"
 
-template <class T>
+#ifndef PLAYER_H
+#define PLAYER_H
+
 class Player
 {
 private:
     Battleship *ships; 
 	int numShips; //number of ships on the board - check if ship sizes are too much for the board
-	T **board;	//pointer to the board array
+	char **board;	//pointer to the board array
 	int boardW; //width of the board
 	int boardH; //height of the board
 	void initializeShips();
 
 public:
 	//Default Constructor - standard size game
-	Player() {boardH=10; boardW=10; createBoard(); numShips = 5;}
+	Player();
 
 	//Constructors for unique size games
 	Player(int num) {boardW=10; boardH=10; numShips=num;}
@@ -37,10 +39,23 @@ public:
 	T &operator= (const int &);
 };
 
-void Player::initializeShips(){
+
+Player::Player(){
+	boardW = 10;
+	boardH = 10;
+	numShips = 5;
 	ships = new Battleship[numShips];
 
 
+
+}
+
+
+template <class T>
+void Player<T>::initializeShips(){
+	ships = new Battleship;
+
+	ships
 
 
 	for(int i=0; i<numShips;i++){
@@ -55,7 +70,7 @@ void Player::initializeShips(){
 }
 
 
-
+template <class T>
 void Battleship<T>::setHitpoints(int h){
 	if(h < 0 || h > ship::getLength())
 		throw "Invalid Hit Points for battleship.";
