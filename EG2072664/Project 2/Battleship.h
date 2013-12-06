@@ -17,13 +17,14 @@ public:
 	Battleship(string name, int length) : Ship(name, length) {setHitpoints(length);}
 
 	//Destructor
-	~Battleship() {;}
+	virtual ~Battleship();
 
 	//Accessors
     virtual int getHitpoints() const {return hitpoints;}
 	
 	//Mutators
-    virtual void setHitpoints(int);
+    virtual void setHitpoints(int, int, int);
+	virtual void setLength(int, int, int);
 
 	//Overloaded operators
 	Battleship &operator=(const Battleship &);
@@ -33,8 +34,8 @@ public:
 
 Battleship &Battleship::operator=(const Battleship &ship){
 	setShipName(ship.getName());
-	setLength(ship.getLength());
-	setHitpoints(ship.getHitpoints());
+	setLength(ship.getLength(), 10, 10);
+	setHitpoints(ship.getHitpoints(), 10, 10);
 	return *this;
 }
 
@@ -48,12 +49,26 @@ Battleship Battleship::operator--(int){
 	hitpoints--;
 	return temp;
 }
-void Battleship::setHitpoints(int h){
-	if(h < 0 || h > getLength())
-		throw "Invalid Hit Points for battleship.";
+
+//Sets hitpoints 
+void Battleship::setHitpoints(int h, int brdW, int brdH){
+	if(h < 1 || h > getLength() || h > brdW || h > brdH)
+		throw "Invalid Hit Points.";
 	else hitpoints = h;
 }
 
+//Overridden setLength function from Ship class. Sets the length and initializes hitpoints
+//This function checks against the board parameters and 
+//throws an exception if the ship is size 0 or too big for the board
+void Battleship::setLength(int len, int w, int h){
+	if(len < 2 || (len > w && len > h))
+		throw "Invalid length.";
+	else {
+		hitpoints = len;
+		Ship::setLength(len);
+	}
+
+}
 
 
 #endif

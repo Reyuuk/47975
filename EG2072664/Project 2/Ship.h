@@ -31,16 +31,16 @@ public:
 	
 	//Mutators
     void setShipName(string n) {shipName = n;}
-    void setLength(int l);
-    virtual void setHitpoints(int)=0;
+    virtual void setLength(int, int, int);
+    virtual void setHitpoints(int, int, int)=0;
 
 };
 
-template <class T>
-void Ship<T>::setLength(int len){
+void Ship::setLength(int len, int w, int h){
 	//prevent making of ships of size 0 or greater than the length/width of the board
-	if(l < 2 || (l > getBoardH() && l > getBoardW()))
+	if(len < 2 || (len > w && len > h))
 		throw "Invalid Length.";
 	ShipSize = len;
 }
+
 #endif
