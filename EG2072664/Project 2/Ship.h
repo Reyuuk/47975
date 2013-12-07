@@ -19,7 +19,7 @@ public:
 	Ship() {shipName = "NULL"; shipSize = 0;}
 	//Constructors
     Ship(string n) {shipName = n;}
-    Ship(string n, int l) {shipName = n; setLength(l);}
+    Ship(string n, int l) {shipName = n; setLength(l, 10, 10);}
 
      //Destructor
     virtual ~Ship();
@@ -30,7 +30,7 @@ public:
     virtual int getHitpoints() const =0;
 	
 	//Mutators
-    void setShipName(string n) {shipName = n;}
+    virtual void setShipName(string n) {shipName = n;}
     virtual void setLength(int, int, int);
     virtual void setHitpoints(int, int, int)=0;
 
@@ -40,7 +40,7 @@ void Ship::setLength(int len, int w, int h){
 	//prevent making of ships of size 0 or greater than the length/width of the board
 	if(len < 2 || (len > w && len > h))
 		throw "Invalid Length.";
-	ShipSize = len;
+	shipSize = len;
 }
 
 #endif

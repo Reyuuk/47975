@@ -6,25 +6,29 @@
 class Battleship : public Ship
 {
 private:
-    int hitpoints;
+    int hitpoints;		//keeps track of hitpoints of the ship
+	char identifier;	//identifier used to display on the gameboard
 
 public:
 	//Default Constructor
-	Battleship() : Ship() {hitpoints = 0;}
+	Battleship() : Ship() {hitpoints = 0; identifier = 0;}
 
 	//Constructors
-	Battleship(string name) : Ship(name) {hitpoints=0;}
-	Battleship(string name, int length) : Ship(name, length) {setHitpoints(length);}
-
-	//Destructor
+	Battleship(string name) : Ship(name) {hitpoints=0; identifier = name.at(0);}
+	Battleship(string name, int length) : Ship(name, length) {setHitpoints(length, 10, 10); identifier = name.at(0);}
+	
+		//Destructor
 	virtual ~Battleship();
 
 	//Accessors
     virtual int getHitpoints() const {return hitpoints;}
+	char getIdentifier() const {return identifier;}
 	
 	//Mutators
     virtual void setHitpoints(int, int, int);
 	virtual void setLength(int, int, int);
+	virtual void setShipName(string n);
+	void setIdentifier(char i) {identifier = i;}
 
 	//Overloaded operators
 	Battleship &operator=(const Battleship &);
@@ -50,6 +54,12 @@ Battleship Battleship::operator--(int){
 	return temp;
 }
 
+//Overridden setShipName function. Also sets identifier to first letter of name string.
+void Battleship::setShipName(string n){
+	Ship::setShipName(n);
+	identifier = n.at(0);
+}
+
 //Sets hitpoints 
 void Battleship::setHitpoints(int h, int brdW, int brdH){
 	if(h < 1 || h > getLength() || h > brdW || h > brdH)
@@ -65,10 +75,11 @@ void Battleship::setLength(int len, int w, int h){
 		throw "Invalid length.";
 	else {
 		hitpoints = len;
-		Ship::setLength(len);
+		Ship::setLength(len, w, h);
 	}
 
 }
+
 
 
 #endif

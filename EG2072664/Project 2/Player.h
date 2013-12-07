@@ -5,14 +5,15 @@
 
 #include <iomanip>
 
+template <class T>
 class Player
 {
 private:
-    Battleship *ships; //array of ships used in the game
-	int numShips; //number of ships on the board - check if ship sizes are too much for the board
-	char **board;	//pointer to the board array
-	int boardW; //width of the board
-	int boardH; //height of the board
+    Battleship *ships;	//array of ships used in the game
+	int numShips;		//number of ships on the board - check if ship sizes are too much for the board
+	T **board;			//pointer to the board array
+	int boardW;			//width of the board
+	int boardH;			//height of the board
 
 	void createBoard();
 
@@ -26,26 +27,32 @@ public:
 	Player(int width, int height, int num);
 
 	//Destructor
-    virtual ~Player(); //make sure this deletes allocated data - ships and the 2d board
+    virtual ~Player();
 
 	//Accessors
 	int getBoardW() {return boardW;}
 	int getBoardH() {return boardH;}
 	void displayBoard();
 	void displayHiddenBoard();
+	int getShipNum() const {return numShips;}
+	int getShipHitpoints(int) const;
 
 	//Mutators
-	void placeShip();
-	void attackPoint();
+	bool placeShip(int &, int &, char, int);
+	void attackPoint(int &, int &);
 
 	//Overloaded constructors
-	//overload[] for ship?
-    //overload = operator to set hitpoints?
-	T &operator= (const int &);
+	//overload[] for ship
+	//T &operator[](const int &);
+
+	//overload = operator to set hitpoints?
+	//T &operator== (const int &);
 };
 
+
 //This is the default constructor for a standard size game, with the standard ships
-Player::Player(){
+template <class T>
+Player<T>::Player(){
 
 	//The standard game size paramaters
 	boardW = 10;
@@ -76,9 +83,11 @@ Player::Player(){
 
 	createBoard();
 }
+
 
 //initialize game with a nonstandard number of ships - TODO validate size
-Player::Player(int num){
+template <class T>
+Player<T>::Player(int num){
 	
 	boardW = 10;
 	boardH = 10;
@@ -101,8 +110,10 @@ Player::Player(int num){
 	createBoard();
 }
 
+
 //Initialize game with nonstandard board size
-Player::Player(int width, int height){
+template <class T>
+Player<T>::Player(int width, int height){
 
 	//The standard game size paramaters
 	boardW = width;
@@ -134,8 +145,10 @@ Player::Player(int width, int height){
 	createBoard();
 }
 
+
 //initialize game with a nonstandard number of ships and board size
-Player::Player(int num, int width, int height){
+template <class T>
+Player<T>::Player(int num, int width, int height){
 	
 	boardW = width;
 	boardH = height;
@@ -158,8 +171,10 @@ Player::Player(int num, int width, int height){
 	createBoard();
 }
 
+
 //Destructor deletes allocated board array and ships array
-Player::~Player(){
+template <class T>
+Player<T>::~Player(){
 	for(int i=0; i<boardW; i++){
 		delete board[i];
 	}
@@ -167,18 +182,20 @@ Player::~Player(){
 	delete []ships;
 }
 
+
 //initializes a 2D array for board and sets the elements to water
-void Player::createBoard(){
+template <class T>
+void Player<T>::createBoard(){
     //allocate 2D array for the board
-    char **temp = new char*[boardW];
+    T **temp = new T*[boardW];
 	for(int i=0; i<boardW; i++){
-		temp[i] = new char[boardH];
+		temp[i] = new T[boardH];
 	}
     
     //initialize all elements to water
     for(int i=0; i<boardW; i++){
         for(int j=0; j<boardH; j++){
-            temp[i][j] = 'W';
+            temp[i][j] = 0;
         }
     }
     
@@ -186,8 +203,10 @@ void Player::createBoard(){
     board = temp;
 }
 
+
 //Displays own board showing all ships on the board.
-void Player::displayBoard(){
+template <class T>
+void Player<T>::displayBoard(){
 	char header=65;
 	cout << "     ";
 	for(int i=0; i<boardW; i++){
@@ -207,37 +226,37 @@ void Player::displayBoard(){
 		for(int j=0; j<boardH; j++)
 		{
             //if the spot is water, display nothing
-            if(board[i][j] == 'W')
+            if(board[i][j] == 0)
             {
                 cout << "  | ";
             }
-			else if(board[i][j] == 'M')
+			else if(board[i][j] == 1)
 			{
 				cout << "O | ";
 			}
-			else if(board[i][j] == 'H')
+			else if(board[i][j] == 2)
 			{
 				cout << "X | ";
 			}
-            else if(board[i][j] == 'C')
+            else if(board[i][j] == 3)
             {
-                cout << "C | ";
+                cout << ships[0].getIdentifier() << " | ";
             }
-            else if(board[i][j] == 'B')
+            else if(board[i][j] == 4)
             {
-                cout << "B | ";
+                cout << ships[1].getIdentifier() << " | ";
             }
-            else if(board[i][j] == 'D')
+            else if(board[i][j] == 5)
             {
-                cout << "D | ";
+                cout << ships[2].getIdentifier() << " | ";
             }
-            else if(board[i][j] == 'S')
+            else if(board[i][j] == 6)
             {
-                cout << "S | ";
+                cout << ships[3].getIdentifier() << " | ";
             }
             else
             {
-                cout << "P | ";
+                cout << ships[4].getIdentifier() << " | ";
             }
         }
 	cout << "   --";
@@ -249,8 +268,10 @@ void Player::displayBoard(){
 
 }
 
+
 //Displays the board for the enemy, hiding the ships
-void Player::displayHiddenBoard(){
+template <class T>
+void Player<T>::displayHiddenBoard(){
 	char header=65;
 	cout << "     ";
 	for(int i=0; i<boardW; i++){
@@ -269,12 +290,12 @@ void Player::displayHiddenBoard(){
         for(int j=0; j<boardH; j++)
         {
             //if the spot is a hit_ship, display the hit
-            if(board[i][j] == 'M')
+            if(board[i][j] == 1)
             {
                 cout << "O | ";
             }
 			//if we previously shot but missed, display an X
-			else if(board[i][j] == 'H')
+			else if(board[i][j] == 2)
 			{
 				cout << "X | ";
 			}
@@ -291,5 +312,79 @@ void Player::displayHiddenBoard(){
 	cout << endl;
     }
 }
+
+
+//Places ship on the board. input is a direction, (x,y) coordinates, and the shipnumber
+//returns bool: false if the placement was unsuccessful due to hitting the edge of the board
+//also returns false if the ship intersects with another
+template <class T>
+bool Player<T>::placeShip(int &x, int &y, char dir, int shipnum){
+
+	//test if the ship fits on the grid on it's current placement
+	if(dir == 'V' && y > (boardH - ships[shipnum].getLength())){
+		return false;
+	}
+	else if(dir == 'H' && x > (boardW - ships[shipnum].getLength())){
+		return false;
+	}
+
+	//test if the ship will collide with another ship already on the grid
+	for(int i=0; i<ships[shipnum].getLength(); i++)
+	{
+		if(dir == 'H')
+		{
+			if(board[y][x+i] != 0)
+				return false;
+		}
+		if(dir == 'V')
+		{
+			if(board[y+i][x] != 0)
+				return false;
+		}
+	}
+
+	//set the position on the board
+	for(int i=0; i<ships[shipnum].getLength(); i++)
+	{
+		if(dir == 'H')
+		{
+			board[y][x+i] = shipnum+3;
+		}
+		if(dir == 'V')
+		{
+			board[y+i][x] = shipnum+3;
+		}
+	}
+
+	return true;
+}
+
+//Attacks a point on the map, changes the board and
+template <class T>
+void Player<T>::attackPoint(int &x, int &y){
+
+	if(board[y][x]< 2)
+	{
+		board[y][x] = 1;
+		cout << "Miss!" << endl << endl;
+	}
+	else if(board[y][x]> 2)
+	{
+		T currship = board[y][x] - 3;
+		board[y][x] = 2;
+		ships[currship]--;
+		if(ships[currship].getHitpoints() == 0)
+			cout << "Enemy " << ships[currship].getShipName() << " sunk!" << endl << endl;
+		else cout << "Hit!" << endl << endl;
+	}
+
+}
+
+template <class T>
+int Player<T>::getShipHitpoints(int ship) const{
+	return ships[ship].getHitpoints();
+}
+
+
 
 #endif
