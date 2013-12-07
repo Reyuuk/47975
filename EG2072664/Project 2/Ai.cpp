@@ -1,7 +1,11 @@
-/*class Ai
+template <class T>
+class Ai
 {
 private:
+	T **board;
 	bool sunk;
+	T x;
+	T y;
 	//ship lengths?
 
 	found();
@@ -23,4 +27,3 @@ public:
 //if no hits exist next to each other, rand the 4 spots and attack hor or ver
 //attack until a ship is sunk
 //keep track of which ships are sunk?
-*/

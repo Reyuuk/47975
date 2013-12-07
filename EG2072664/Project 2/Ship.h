@@ -22,7 +22,7 @@ public:
     Ship(string n, int l) {shipName = n; setLength(l, 10, 10);}
 
      //Destructor
-    virtual ~Ship();
+	virtual ~Ship() {;}
 
 	//Accessors
     string getName() const {return shipName;}

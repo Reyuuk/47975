@@ -380,6 +380,7 @@ void Player<T>::attackPoint(int &x, int &y){
 
 }
 
+//gets the hitpoints for a ship
 template <class T>
 int Player<T>::getShipHitpoints(int ship) const{
 	return ships[ship].getHitpoints();

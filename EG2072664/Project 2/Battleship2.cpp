@@ -116,6 +116,7 @@ void instructions()
 void placeShips(Player<int> *self)
 {
 	for(int i=0; i<self->getShipNum(); i++){
+		self->displayBoard();
 		int x;
 		int y;
 		char dir;
@@ -135,7 +136,7 @@ void getUserInput(int &x, int &y)
 		cin.get(input[i]);
 	}
 	cin.clear();
-	cin.sync();
+	cin.ignore(1000, '\n');
 
 	input[0] = toupper(input[0]);
 
@@ -148,7 +149,7 @@ void getUserInput(int &x, int &y)
 			cin.get(input[i]);
 		}
 		cin.clear();
-		cin.sync();
+		cin.ignore(1000, '\n');
 	}
 	
 	//assign to an x,y location on player's grid
@@ -166,14 +167,14 @@ char getDirection()
 	cout << "Place ship [H]orizontally or [V]ertically?: ";
 	cin >> dir;
 	cin.clear();
-	cin.sync();
+	cin.ignore(1000, '\n');
 
 	//validate the orientation
 	while(dir != 'h' && dir != 'H' && dir != 'v' && dir != 'V')
 	{
 		cout << "Invalid! Try inputting a direction again. [V or H]: ";
 		cin.clear();
-		cin.sync();
+		cin.ignore(1000, '\n');
 		cin >> dir;
 	}
 
