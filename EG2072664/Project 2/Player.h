@@ -374,7 +374,7 @@ void Player<T>::attackPoint(int &x, int &y){
 		board[y][x] = 2;
 		ships[currship]--;
 		if(ships[currship].getHitpoints() == 0)
-			cout << "Enemy " << ships[currship].getShipName() << " sunk!" << endl << endl;
+			cout << "Enemy " << ships[currship].getName() << " sunk!" << endl << endl;
 		else cout << "Hit!" << endl << endl;
 	}
 

@@ -17,7 +17,7 @@ public:
 	Battleship(string name) : Ship(name) {hitpoints=0; identifier = name.at(0);}
 	Battleship(string name, int length) : Ship(name, length) {setHitpoints(length, 10, 10); identifier = name.at(0);}
 	
-		//Destructor
+	//Destructor
 	virtual ~Battleship();
 
 	//Accessors

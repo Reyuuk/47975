@@ -1,4 +1,4 @@
-class Ai
+/*class Ai
 {
 private:
 	bool sunk;
@@ -23,3 +23,4 @@ public:
 //if no hits exist next to each other, rand the 4 spots and attack hor or ver
 //attack until a ship is sunk
 //keep track of which ships are sunk?
+*/
