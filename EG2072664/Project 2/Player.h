@@ -63,7 +63,7 @@ Player<T>::Player(){
 	//Initialize ships
 	ships[0].setShipName("Carrier");
 	ships[0].setLength(5, boardW, boardH);
-	ships[0].setHitpoints(1, boardW, boardH);
+	ships[0].setHitpoints(5, boardW, boardH);
 
 	ships[1].setShipName("Battleship");
 	ships[1].setLength(4, boardW, boardH);
@@ -124,7 +124,7 @@ Player<T>::Player(int width, int height){
 	//Initialize ships
 	ships[0].setShipName("Carrier");
 	ships[0].setLength(5, boardW, boardH);
-	ships[0].setHitpoints(1, boardW, boardH);
+	ships[0].setHitpoints(5, boardW, boardH);
 
 	ships[1].setShipName("Battleship");
 	ships[1].setLength(4, boardW, boardH);
@@ -210,7 +210,7 @@ void Player<T>::displayBoard(){
 	char header=65;
 	cout << "     ";
 	for(int i=0; i<boardW; i++){
-		cout << header << "   ";
+		cout << static_cast<char>(header+i) << "   ";
 	}
 	cout << endl;
 	cout << "   --";
@@ -259,6 +259,7 @@ void Player<T>::displayBoard(){
                 cout << ships[4].getIdentifier() << " | ";
             }
         }
+	cout << endl;
 	cout << "   --";
 	for(int i=0; i<boardW; i++){
 		cout << "----";
@@ -275,7 +276,7 @@ void Player<T>::displayHiddenBoard(){
 	char header=65;
 	cout << "     ";
 	for(int i=0; i<boardW; i++){
-		cout << header << "   ";
+		cout << static_cast<char>(header+i) << "   ";
 	}
 	cout << endl;
 	cout << "   --";
@@ -305,6 +306,7 @@ void Player<T>::displayHiddenBoard(){
                 cout << "  | ";
             }
         }
+	cout << endl;
 	cout << "   --";
 	for(int i=0; i<boardW; i++){
 		cout << "----";
@@ -372,7 +374,13 @@ void Player<T>::attackPoint(int &x, int &y){
 	{
 		T currship = board[y][x] - 3;
 		board[y][x] = 2;
-		ships[currship]--;
+		try{ 
+			//--ships[currship];
+			ships[currship]--; 
+		}
+		catch(char *eString){
+			cout << eString;
+		}
 		if(ships[currship].getHitpoints() == 0)
 			cout << "Enemy " << ships[currship].getName() << " sunk!" << endl << endl;
 		else cout << "Hit!" << endl << endl;

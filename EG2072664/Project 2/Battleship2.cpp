@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <string>
 #include "Player.h"
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
 
 
@@ -22,7 +24,9 @@ int main()
 {
 	int x, y; //coordinates. Retrieved from user input and used to place ships or attack opponent.
 	char again; // used to ask player if they want to play the game again.
-
+	
+	//random seed
+	srand(time(0));
 	instructions();
 
 	do{
@@ -115,14 +119,24 @@ void instructions()
 
 void placeShips(Player<int> *self)
 {
+	//places a ship for each ship on the player's board
 	for(int i=0; i<self->getShipNum(); i++){
-		self->displayBoard();
 		int x;
 		int y;
 		char dir;
+		bool badplacement;
+
+		self->displayBoard();
 		getUserInput(x, y);
 		dir = getDirection();
-		self->placeShip(x, y, dir, i);
+		badplacement = self->placeShip(x, y, dir, i);
+		while (!badplacement){
+			cout << endl << "Your ship doesn't fit there! Please try again." << endl;
+			self->displayBoard();
+			getUserInput(x, y);
+			dir = getDirection();
+			badplacement = self->placeShip(x, y, dir, i);
+		}
 	}
 }
 
@@ -135,8 +149,6 @@ void getUserInput(int &x, int &y)
 	{
 		cin.get(input[i]);
 	}
-	cin.clear();
-	cin.ignore(1000, '\n');
 
 	input[0] = toupper(input[0]);
 
@@ -144,13 +156,17 @@ void getUserInput(int &x, int &y)
 	while(input[0] < 'A' || input[0] > 'J' || !isdigit(input[1]) || (!isdigit(input[2]) && input[2]!='\n'))
 	{
 		cout << "Invalid input! Please try again: ";
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cin.sync();
 		for(int i=0; i<3; i++)
 		{
 			cin.get(input[i]);
 		}
-		cin.clear();
-		cin.ignore(1000, '\n');
+
 	}
+
+	cin.sync();
 	
 	//assign to an x,y location on player's grid
 	x = input[0] - 65;
@@ -166,8 +182,6 @@ char getDirection()
     //ask for orientation
 	cout << "Place ship [H]orizontally or [V]ertically?: ";
 	cin >> dir;
-	cin.clear();
-	cin.ignore(1000, '\n');
 
 	//validate the orientation
 	while(dir != 'h' && dir != 'H' && dir != 'v' && dir != 'V')
@@ -179,6 +193,8 @@ char getDirection()
 	}
 
 	dir = toupper(dir);
+
+	cin.sync();
 
 	return dir;
 }

@@ -33,7 +33,7 @@ public:
 	//Overloaded operators
 	Battleship &operator=(const Battleship &);
 	Battleship &operator--();
-	Battleship operator--(int);
+	Battleship &operator--(int);
 };
 
 Battleship &Battleship::operator=(const Battleship &ship){
@@ -48,10 +48,10 @@ Battleship &Battleship::operator--(){
 	return *this;
 }
 
-Battleship Battleship::operator--(int){
-	Battleship temp(getName(), hitpoints);
+Battleship &Battleship::operator--(int){
+	//Battleship temp(this->getName(), this->hitpoints);
 	hitpoints--;
-	return temp;
+	return *this;
 }
 
 //Overridden setShipName function. Also sets identifier to first letter of name string.
