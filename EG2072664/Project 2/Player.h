@@ -41,6 +41,7 @@ public:
 	void displayBoard();
 	void displayHiddenBoard();
 	int getShipNum() const {return numShips;}
+	string getShipName(int n) const {return ships[n].getName();}
 	int getShipHitpoints(int) const;
 
 	//Mutators
@@ -358,14 +359,12 @@ bool Player<T>::placeShip(int &x, int &y, char dir, int shipnum){
 template <class T>
 int Player<T>::attackPoint(int &x, int &y){
 
-	if(board[y][x]< 2)
-	{
+	if(board[y][x]< 2) {
 		board[y][x] = 1;
-		cout << "Miss!" << endl << endl;
+		cout << "missed!" << endl;
 		return 1;
 	}
-	else if(board[y][x]> 2)
-	{
+	else{
 		T currship = board[y][x] - 3;
 		board[y][x] = 2;
 		try{ 
@@ -376,10 +375,10 @@ int Player<T>::attackPoint(int &x, int &y){
 			cout << eString;
 		}
 		if(ships[currship].getHitpoints() == 0){
-			cout << "Enemy " << ships[currship].getName() << " sunk!" << endl << endl;
+			cout << "sunk a " << ships[currship].getName() << endl;
 			return currship+3;
 		}
-		else cout << "Hit!" << endl << endl;
+		else cout << "hit!" << endl;
 		return 2;
 	}
 }

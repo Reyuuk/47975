@@ -107,6 +107,7 @@ void twoPlGame()
 		cout << "It's your turn to attack! ";
 		getUserInput(x, y);
 		p2->attackPoint(x, y);
+		cout << endl;
 		p2->displayHiddenBoard();
 		cout << "This is the end of your turn. ";
 
@@ -126,6 +127,7 @@ void twoPlGame()
 		cout << "It's your turn to attack! ";
 		getUserInput(x, y);
 		p1->attackPoint(x, y);
+		cout << endl;
 		p1->displayHiddenBoard();
 		cout << "This is the end of your turn. ";
 
@@ -141,23 +143,23 @@ void twoPlGame()
 void onePlGame()
 {
 	int x, y; //coordinates. Retrieved from user input and used to place ships or attack opponent.
-	int result; //used to capture result of shot for AI.
+	int result; //used to capture result of a shot for AI.
 
 	//create players and initialize
 	Player<int> *p1 = new Player<int>;
 	BattleshipAi *p2 = new BattleshipAi;
 
-	//players place their ships
-	cout << "Place your ships. " << endl;
+	//Place ships for the player and AI
+	cout << endl << "Place your ships. " << endl << endl;
 	placeShips(p1);
 	aiPlaceShips(p2);
-	cout << "The game will now begin." << endl << endl;
+	cout << "The game will now begin." << endl;
 	
 	//begin the attacking phase of the game. 
 	//Loop until all ships on a board are sunk and a winner is declared.
 	do{
 		//change to player 1's turn
-		cout << "Your board:" << endl << endl;
+		cout << "Your board:" << endl;
 		p1->displayBoard();
 		system("PAUSE");
 		//show player 1 the current enemy board
@@ -166,15 +168,18 @@ void onePlGame()
 		//player 1 choose an attack point
 		cout << "It's your turn to attack! ";
 		getUserInput(x, y);
+		cout << "You ";
 		p2->attackPoint(x, y);
+		cout << endl;
 		p2->displayHiddenBoard();
 		cout << "This is the end of your turn. ";
+		system("PAUSE");
 
 
-		//change to player 2's turn
-		//show player 2 the status of their own board
-		//player 2 choose an attack point
+		//change to AI's turn
+		//AI chooses an attack point
 		p2->selectAttackPoint(x, y);
+		cout << "Your enemy ";
 		result = p1->attackPoint(x, y);
 		//Informs AI if the shot was a miss, hit, or if a ship sunk
 		p2->getResults(result);
@@ -196,6 +201,7 @@ void placeShips(Player<int> *self)
 		char dir;
 		bool badplacement;
 
+		cout << endl << "Place your " << self->getShipName(i) << ". (" << self->getShipHitpoints(i) << "x1)" << endl <<endl;
 		self->displayBoard();
 		getUserInput(x, y);
 		dir = getDirection();
