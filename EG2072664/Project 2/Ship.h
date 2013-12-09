@@ -40,6 +40,7 @@ public:
 
 };
 
+//Sets and validates the length of a ship
 void Ship::setLength(int len, int w, int h){
 	//prevent making of ships of size 0 or greater than the length/width of the board
 	if(len < 2 || (len > w && len > h))

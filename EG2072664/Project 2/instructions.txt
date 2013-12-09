@@ -1,0 +1,17 @@
+This is the game of battleship. To begin, each player will secretly 
+arrange ships on a 10x10 grid. Each ship occupies a number of 
+consecutive spaces. Below is a list of the ships and their size.
+
+Aircraft Carrier : 5
+Battleship : 4
+Sumbarine : 3
+Destroyer : 3
+Patrol Boat : 2
+
+After boats have been placed by both players, you will take turns attacking
+each other's grid until all of your opponent's ships have been sunk!
+You can play versus another player or versus a computer controlled AI.
+
+Type 1 to play single player vs AI.
+Type 2 to player two player vs another person.
+Type anything else to exit: 

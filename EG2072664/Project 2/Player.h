@@ -355,7 +355,8 @@ bool Player<T>::placeShip(int &x, int &y, char dir, int shipnum){
 	return true;
 }
 
-//Attacks a point on the map, changes the board and
+//Attacks a point on the map, changes the board and returns the results 
+//(1 for miss, 2 for hit, 3+ for sunk, based on ship number)
 template <class T>
 int Player<T>::attackPoint(int &x, int &y){
 

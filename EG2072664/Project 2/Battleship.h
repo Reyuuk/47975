@@ -42,6 +42,7 @@ public:
 	Battleship &operator--(int);
 };
 
+//copy Battleship object operation is done by operator=
 Battleship &Battleship::operator=(const Battleship &ship){
 	setShipName(ship.getName());
 	setLength(ship.getLength(), 10, 10);
@@ -49,11 +50,13 @@ Battleship &Battleship::operator=(const Battleship &ship){
 	return *this;
 }
 
+//decrement hitpoints prefix operator
 Battleship &Battleship::operator--(){
 	--hitpoints;
 	return *this;
 }
 
+//decrement hitpoints postfix operator
 Battleship &Battleship::operator--(int){
 	hitpoints--;
 	return *this;

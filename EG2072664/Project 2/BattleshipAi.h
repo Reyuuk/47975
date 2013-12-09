@@ -43,6 +43,7 @@ public:
 
 #endif
 
+//Constructor for standard game
 BattleshipAi::BattleshipAi(){
 
 	//allocate 2D array for the board
@@ -68,7 +69,6 @@ BattleshipAi::BattleshipAi(){
 	lhx = 0;
 	lhy = 0;
 }
-
 
 //destructor deallocates hitboard memory
 BattleshipAi::~BattleshipAi(){
@@ -113,6 +113,7 @@ void BattleshipAi::selectAttackPoint(int &hor, int &ver){
 	}
 }
 
+//randomly selects random coord to attack. Uses parity check to skip every other possible position
 void BattleshipAi::randHuntCoords(){
 	//Randomly search board for any spaces that have never been attacked
 	do{
@@ -254,7 +255,6 @@ bool BattleshipAi::attackModeCoords(int a, int b){
 	return false;
 }
 
-
 //gets a 1 if a hit is confirmed, 2 if ship sunk, 0 if miss. Sets hitboard and shipsunk bool.
 void BattleshipAi::getResults(int result){
 	if(result > 2){
@@ -286,4 +286,3 @@ void BattleshipAi::getResults(int result){
 		//attack if sunk is false
 	}
 }
-

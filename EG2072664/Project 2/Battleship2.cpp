@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 #include "BattleshipAi.h"
 
 using namespace std;
@@ -43,22 +44,15 @@ int main()
 }
 void instructions()
 {
-	cout << "This is the game of battleship. To begin, each player will secretly " << endl
-		 << "arrange ships on a 10x10 grid. Each ship occupies a number of " << endl
-		 << "consecutive spaces. Below is a list of the ships and their size." << endl << endl
+	string line;
+	ifstream myfile;
+	myfile.open("instructions.txt");
 
-		 << "Aircraft Carrier : 5" << endl
-		 << "Battleship : 4" << endl
-		 << "Sumbarine : 3" << endl
-		 << "Destroyer : 3" << endl
-		 << "Patrol Boat : 2" << endl << endl
-
-		 << "After boats have been placed by both players, you will take turns attacking" << endl
-		 << "each other's grid until all of your opponent's ships have been sunk!" << endl << endl;
-
-	cout << "Type 1 to play a 1 player game vs AI."<<endl;
-    cout << "Type 2 to play a 2 player game vs another player."<<endl;
-    cout << "Type anything else to exit: ";
+	while(!myfile.eof()){
+		getline(myfile, line);
+		cout << line << endl;
+	}
+	myfile.close();
 }
     
 int getN(){
@@ -192,6 +186,7 @@ void onePlGame()
 	delete []p2;
 }
 
+//Allows player to place their ships
 void placeShips(Player<int> *self)
 {
 	//places a ship for each ship on the player's board
@@ -216,6 +211,7 @@ void placeShips(Player<int> *self)
 	}
 }
 
+//Logic to place all the ships for the AI
 void aiPlaceShips(BattleshipAi *ai){
 	//Ai randomly selects locations to place ships.
 	for(int ship=0; ship<ai->getShipNum(); ship++){
@@ -231,6 +227,7 @@ void aiPlaceShips(BattleshipAi *ai){
 	}
 }
 
+//Get user input. Output is two integers by reference, 0-9 based on user input
 void getUserInput(int &x, int &y)
 {
 	char input[3];
@@ -267,6 +264,7 @@ void getUserInput(int &x, int &y)
 	else y = input[1]-49;
 }
 
+//Gets a direction from the player. Output is only H or V.
 char getDirection()
 {
 	char dir;
@@ -282,14 +280,14 @@ char getDirection()
 		cin.ignore(1000, '\n');
 		cin >> dir;
 	}
-
-	dir = toupper(dir);
-
 	cin.sync();
 
+	dir = toupper(dir);
+	
 	return dir;
 }
 
+//Tests if the game is over by looking at hitpoints of each ship
 bool gameOver(const Player<int> *p1, const Player<int> *p2)
 {
 	bool p1lose = false;
