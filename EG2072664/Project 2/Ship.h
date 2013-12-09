@@ -1,4 +1,8 @@
-//Ship class template - class specification and implementation
+//Written by Edgar Gonzalez
+//on 12/8/13
+//for CIS17A - 47975
+
+//Class Specification and implementation for Ship class
 
 #ifndef SHIP_H
 #define SHIP_H

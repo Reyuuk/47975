@@ -1,3 +1,9 @@
+//Written by Edgar Gonzalez
+//on 12/8/13
+//for CIS17A - 47975
+
+//Class Specification and implementation for Player class
+
 #include "Battleship.h"
 
 #ifndef PLAYER_H
@@ -39,14 +45,8 @@ public:
 
 	//Mutators
 	bool placeShip(int &, int &, char, int);
-	void attackPoint(int &, int &);
+	int attackPoint(int &, int &);
 
-	//Overloaded constructors
-	//overload[] for ship
-	//T &operator[](const int &);
-
-	//overload = operator to set hitpoints?
-	//T &operator== (const int &);
 };
 
 
@@ -110,7 +110,6 @@ Player<T>::Player(int num){
 	createBoard();
 }
 
-
 //Initialize game with nonstandard board size
 template <class T>
 Player<T>::Player(int width, int height){
@@ -145,7 +144,6 @@ Player<T>::Player(int width, int height){
 	createBoard();
 }
 
-
 //initialize game with a nonstandard number of ships and board size
 template <class T>
 Player<T>::Player(int num, int width, int height){
@@ -171,7 +169,6 @@ Player<T>::Player(int num, int width, int height){
 	createBoard();
 }
 
-
 //Destructor deletes allocated board array and ships array
 template <class T>
 Player<T>::~Player(){
@@ -181,7 +178,6 @@ Player<T>::~Player(){
 	delete []board;
 	delete []ships;
 }
-
 
 //initializes a 2D array for board and sets the elements to water
 template <class T>
@@ -202,7 +198,6 @@ void Player<T>::createBoard(){
     //sets the board to the new array
     board = temp;
 }
-
 
 //Displays own board showing all ships on the board.
 template <class T>
@@ -269,7 +264,6 @@ void Player<T>::displayBoard(){
 
 }
 
-
 //Displays the board for the enemy, hiding the ships
 template <class T>
 void Player<T>::displayHiddenBoard(){
@@ -314,7 +308,6 @@ void Player<T>::displayHiddenBoard(){
 	cout << endl;
     }
 }
-
 
 //Places ship on the board. input is a direction, (x,y) coordinates, and the shipnumber
 //returns bool: false if the placement was unsuccessful due to hitting the edge of the board
@@ -363,12 +356,13 @@ bool Player<T>::placeShip(int &x, int &y, char dir, int shipnum){
 
 //Attacks a point on the map, changes the board and
 template <class T>
-void Player<T>::attackPoint(int &x, int &y){
+int Player<T>::attackPoint(int &x, int &y){
 
 	if(board[y][x]< 2)
 	{
 		board[y][x] = 1;
 		cout << "Miss!" << endl << endl;
+		return 1;
 	}
 	else if(board[y][x]> 2)
 	{
@@ -381,11 +375,13 @@ void Player<T>::attackPoint(int &x, int &y){
 		catch(char *eString){
 			cout << eString;
 		}
-		if(ships[currship].getHitpoints() == 0)
+		if(ships[currship].getHitpoints() == 0){
 			cout << "Enemy " << ships[currship].getName() << " sunk!" << endl << endl;
+			return currship+3;
+		}
 		else cout << "Hit!" << endl << endl;
+		return 2;
 	}
-
 }
 
 //gets the hitpoints for a ship
@@ -393,7 +389,5 @@ template <class T>
 int Player<T>::getShipHitpoints(int ship) const{
 	return ships[ship].getHitpoints();
 }
-
-
 
 #endif

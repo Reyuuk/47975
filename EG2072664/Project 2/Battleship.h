@@ -1,3 +1,9 @@
+//Written by Edgar Gonzalez
+//on 12/8/13
+//for CIS17A - 47975
+
+//Class Specification and implementation for Battleship class
+
 #include "Ship.h"
 
 #ifndef BATTLESHIP_H
@@ -49,7 +55,6 @@ Battleship &Battleship::operator--(){
 }
 
 Battleship &Battleship::operator--(int){
-	//Battleship temp(this->getName(), this->hitpoints);
 	hitpoints--;
 	return *this;
 }
@@ -60,7 +65,8 @@ void Battleship::setShipName(string n){
 	identifier = n.at(0);
 }
 
-//Sets hitpoints 
+//Sets hitpoints - validates to size of the ship and size of the board
+//throws an exception for invalid entries
 void Battleship::setHitpoints(int h, int brdW, int brdH){
 	if(h < 1 || h > getLength() || h > brdW || h > brdH)
 		throw "Invalid Hit Points.";
@@ -79,7 +85,5 @@ void Battleship::setLength(int len, int w, int h){
 	}
 
 }
-
-
 
 #endif

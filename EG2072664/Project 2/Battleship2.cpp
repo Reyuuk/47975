@@ -1,13 +1,12 @@
 //Written by Edgar Gonzalez
-//on 10/26/2013
+//on 12/8/13
 //for CIS17A - 47975
 
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "Player.h"
-#include <stdlib.h>
-#include <time.h>
+#include "BattleshipAi.h"
+
 using namespace std;
 
 
@@ -15,88 +14,31 @@ using namespace std;
 
 //function prototypes
 void instructions();
-void placeShips(Player<int> *self);
+void placeShips(Player<int> *);
+void aiPlaceShips(BattleshipAi *);
 void getUserInput(int&, int&);
 char getDirection();
 bool gameOver(const Player<int>*, const Player<int>*);
+void onePlGame();
+void twoPlGame();
+int getN();
 
-int main() 
+
+int main()
 {
-	int x, y; //coordinates. Retrieved from user input and used to place ships or attack opponent.
-	char again; // used to ask player if they want to play the game again.
-	
-	//random seed
+	//random seed for AI computations
 	srand(time(0));
-	instructions();
 
-	do{
-		//create players and initialize
-		Player<int> *p1 = new Player<int>;
-		Player<int> *p2 = new Player<int>;
+    int inN;
+    do{
+        instructions();
+        inN=getN();
+        switch(inN){
+        case 1:    onePlGame();break;
+        case 2:    twoPlGame();break;
+		}
+    }while(inN==1 || inN==2);
 
-		//players place their ships
-		cout << "Player 1, place your ships. " << endl;
-		placeShips(p1);
-		system("CLS");
-		cout << "Player 2's turn to place ships. ";
-		system("PAUSE");
-		placeShips(p2);
-		system("CLS");
-		cout << "Both players have finished placing ships! The game will now begin." << endl << endl;
-	
-		//begin the attacking phase of the game. 
-		//Loop until all ships on a board are sunk and a winner is declared.
-		do{
-			//change to player 1's turn
-			cout << "Player 1, ";
-			system("PAUSE");
-			//show player 1 the status of their own board
-			cout << "Your board:" << endl << endl;
-			p1->displayBoard();
-			system("PAUSE");
-			system("CLS"); //clear screen after viewing own, for cheaters!
-			//show player 1 the current enemy board
-			cout << "Your enemy's board:" << endl << endl;
-			p2->displayHiddenBoard();
-			//player 1 choose an attack point
-			cout << "It's your turn to attack! ";
-			getUserInput(x, y);
-			p2->attackPoint(x, y);
-			p2->displayHiddenBoard();
-			cout << "This is the end of your turn. ";
-
-
-			//change to player 2's turn
-			cout << "Player 2, ";
-			system("PAUSE");
-			//show player 2 the status of their own board
-			cout << "Your board:" << endl << endl;
-			p2->displayBoard();
-			system("PAUSE");
-			system("CLS"); //clear screen after viewing own, for cheaters!
-			//show player 2 the enemy's board
-			cout << "Your enemy's board:" << endl << endl;
-			p1->displayHiddenBoard();
-			//player 2 choose an attack point
-			cout << "It's your turn to attack! ";
-			getUserInput(x, y);
-			p1->attackPoint(x, y);
-			p1->displayHiddenBoard();
-			cout << "This is the end of your turn. ";
-
-			//check if game is over
-		} while (!gameOver(p1, p2));
-	
-		//delete the players
-		delete []p1;
-		delete []p2;
-
-		//ask if they want to start a new game
-		cout << "Do you want to play another game? [Y/N]: ";
-		cin >> again;
-	} while(again == 'Y' || again == 'y');
-	
-    
     return 0;
 }
 void instructions()
@@ -114,7 +56,135 @@ void instructions()
 		 << "After boats have been placed by both players, you will take turns attacking" << endl
 		 << "each other's grid until all of your opponent's ships have been sunk!" << endl << endl;
 
+	cout << "Type 1 to play a 1 player game vs AI."<<endl;
+    cout << "Type 2 to play a 2 player game vs another player."<<endl;
+    cout << "Type anything else to exit: ";
+}
+    
+int getN(){
+        int inN;
+        cin>>inN;
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cin.sync();
+        return inN;
+}
+
+//Two player match, one person vs another
+void twoPlGame() 
+{
+	int x, y; //coordinates. Retrieved from user input and used to place ships or attack opponent.
+
+	//create players and initialize
+	Player<int> *p1 = new Player<int>;
+	Player<int> *p2 = new Player<int>;
+
+	//players place their ships
+	cout << "Player 1, place your ships. " << endl;
+	placeShips(p1);
+	system("CLS");
+	cout << "Player 2's turn to place ships. ";
 	system("PAUSE");
+	placeShips(p2);
+	system("CLS");
+	cout << "Both players have finished placing ships! The game will now begin." << endl << endl;
+	
+	//begin the attacking phase of the game. 
+	//Loop until all ships on a board are sunk and a winner is declared.
+	do{
+		//change to player 1's turn
+		cout << "Player 1, ";
+		system("PAUSE");
+		//show player 1 the status of their own board
+		cout << "Your board:" << endl << endl;
+		p1->displayBoard();
+		system("PAUSE");
+		system("CLS"); //clear screen after viewing own, for cheaters!
+		//show player 1 the current enemy board
+		cout << "Your enemy's board:" << endl << endl;
+		p2->displayHiddenBoard();
+		//player 1 choose an attack point
+		cout << "It's your turn to attack! ";
+		getUserInput(x, y);
+		p2->attackPoint(x, y);
+		p2->displayHiddenBoard();
+		cout << "This is the end of your turn. ";
+
+
+		//change to player 2's turn
+		cout << "Player 2, ";
+		system("PAUSE");
+		//show player 2 the status of their own board
+		cout << "Your board:" << endl << endl;
+		p2->displayBoard();
+		system("PAUSE");
+		system("CLS"); //clear screen after viewing own, for cheaters!
+		//show player 2 the enemy's board
+		cout << "Your enemy's board:" << endl << endl;
+		p1->displayHiddenBoard();
+		//player 2 choose an attack point
+		cout << "It's your turn to attack! ";
+		getUserInput(x, y);
+		p1->attackPoint(x, y);
+		p1->displayHiddenBoard();
+		cout << "This is the end of your turn. ";
+
+		//check if game is over
+	} while (!gameOver(p1, p2));
+	
+	//delete the players
+	delete []p1;
+	delete []p2;
+}
+
+//Single player match against AI.
+void onePlGame()
+{
+	int x, y; //coordinates. Retrieved from user input and used to place ships or attack opponent.
+	int result; //used to capture result of shot for AI.
+
+	//create players and initialize
+	Player<int> *p1 = new Player<int>;
+	BattleshipAi *p2 = new BattleshipAi;
+
+	//players place their ships
+	cout << "Place your ships. " << endl;
+	placeShips(p1);
+	aiPlaceShips(p2);
+	cout << "The game will now begin." << endl << endl;
+	
+	//begin the attacking phase of the game. 
+	//Loop until all ships on a board are sunk and a winner is declared.
+	do{
+		//change to player 1's turn
+		cout << "Your board:" << endl << endl;
+		p1->displayBoard();
+		system("PAUSE");
+		//show player 1 the current enemy board
+		cout << "Your enemy's board:" << endl << endl;
+		p2->displayHiddenBoard();
+		//player 1 choose an attack point
+		cout << "It's your turn to attack! ";
+		getUserInput(x, y);
+		p2->attackPoint(x, y);
+		p2->displayHiddenBoard();
+		cout << "This is the end of your turn. ";
+
+
+		//change to player 2's turn
+		//show player 2 the status of their own board
+		//player 2 choose an attack point
+		p2->selectAttackPoint(x, y);
+		result = p1->attackPoint(x, y);
+		//Informs AI if the shot was a miss, hit, or if a ship sunk
+		p2->getResults(result);
+
+		//check if game is over
+	} while (!gameOver(p1, p2));
+	
+	//delete the players
+	delete []p1;
+	delete []p2;
 }
 
 void placeShips(Player<int> *self)
@@ -137,6 +207,21 @@ void placeShips(Player<int> *self)
 			dir = getDirection();
 			badplacement = self->placeShip(x, y, dir, i);
 		}
+	}
+}
+
+void aiPlaceShips(BattleshipAi *ai){
+	//Ai randomly selects locations to place ships.
+	for(int ship=0; ship<ai->getShipNum(); ship++){
+		int x;
+		int y;
+		char dir;
+		bool badplacement;
+
+		do{
+		ai->placeShipRandom(x, y, dir);
+		badplacement = ai->placeShip(x, y, dir, ship);
+		} while (!badplacement);
 	}
 }
 
@@ -238,4 +323,3 @@ bool gameOver(const Player<int> *p1, const Player<int> *p2)
 
 	return false;
 }
-
